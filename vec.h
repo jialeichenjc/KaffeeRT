@@ -22,10 +22,8 @@ public:
     vec4(float x, float y, float z, float w = 0.0f) : x(x), y(y), z(z), w(w) {}
     inline bool operator==(const vec4 &) const;
     inline vec4 operator-() const; // negation
-    inline vec4& operator+=(const vec4&);
+    inline vec4& operator+=(const vec4&); // not implemented yet...not sure if I'll need them
     inline vec4& operator-=(const vec4&);
-    //inline vec4 operator+(const vec4&);
-    //inline vec4 operator-(const vec4&);
 };
 
 class point : public vec4 {
