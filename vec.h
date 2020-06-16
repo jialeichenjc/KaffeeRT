@@ -1,4 +1,5 @@
 #include <math.h>
+#include <assert.h>
 
 #define EPSILON 0.00001
 
@@ -44,6 +45,44 @@ inline vec4 operator-(const vec4 &v1, const vec4 &v2) {
     return vec4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 }
 
-inline vec4 operator-(const vec4 &other) {
+// negate
+inline vec4 vec4::operator-() const{
+    return vec4(-x, -y, -z);
+}
 
+// scalar multi and div
+inline vec4 operator*(const vec4 &v1, float t) {
+    return vec4(v1.x * t, v1.y * t, v1.z * t);
+}
+
+inline vec4 operator*(float t, const vec4 &v1) {
+    return vec4(v1.x * t, v1.y * t, v1.z * t);
+}
+
+inline vec4 operator/(const vec4 &v1, float t) {
+    assert(t != 0);
+    return vec4(v1.x / t, v1.y / t, v1.z / t);
+}
+
+// length
+inline float mag(const vec4 &v1) {
+    return sqrt(pow(v1.x, 2) + pow(v1.y, 2) + pow(v1.z, 2));
+}
+
+// normalize
+inline vec4 norm(const vec4 &v1) {
+    float u = 1 / mag(v1);
+    return vec4(v1.x * u, v1.y * u, v1.z * u);
+}
+
+// TODO: I'm not sure if I'm including w here for any reason
+// w could potentially be 1 if I end up using homogeneous coord
+inline float dot(const vec4 &v1, const vec4 &v2) {
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
+}
+
+inline vec4 cross(const vec4 &v1, const vec4 &v2) {
+    return vec4(v1.y * v2.z - v1.z * v2.y, 
+                v1.z * v2.x - v1.x * v2.z,
+                v1.x * v2.y - v1.y * v2.x);
 }
