@@ -10,3 +10,10 @@ TEST(DrawTests, testCreateCanvas) {
     EXPECT_EQ(canvas.height, 600);
     EXPECT_EQ(color, Vec4(0.0f, 0.0f, 0.0f));
 }
+
+TEST(DrawTests, testDrawCanvas) {
+    Canvas canvas;
+    Vec4 color(100, 150, 200); // create a test color
+    writeToPixel(canvas, 50, 40, color);
+    EXPECT_EQ(getColorAtPixel(canvas, 50, 40), color);
+}
