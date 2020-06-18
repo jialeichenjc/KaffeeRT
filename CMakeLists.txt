@@ -37,9 +37,11 @@ set(googletest-srcdir ${CMAKE_CURRENT_BINARY_DIR}/googletest-src/googletest)
 
 set(SOURCES 
     main.cpp
+    Vec.h
+    Vec.cpp
+    Draw.h
+    TestDraw.h
     TestVec4.h
-    vec.h
-    vec.cpp
     ${googletest-srcdir}/include/gtest/gtest.h)
 
 add_executable(KaffeeRT ${SOURCES})
