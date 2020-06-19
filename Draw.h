@@ -34,7 +34,7 @@ public:
 // x: width y: height
 void writeToPixel(Canvas &canvas, size_t col, size_t row, const Vec4 &color) {
     assert(col < canvas.width && row < canvas.height);
-    canvas.pixels[row][col] = color;
+    canvas.pixels[row][col] = clampVec(color);
 }
 
 Vec4 getColorAtPixel(const Canvas &canvas, size_t col, size_t row) {

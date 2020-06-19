@@ -15,7 +15,7 @@ TEST(DrawTests, testDrawCanvas) {
     Canvas canvas;
     Vec4 color(100, 150, 200); // create a test color
     writeToPixel(canvas, 50, 40, color);
-    EXPECT_EQ(getColorAtPixel(canvas, 50, 40), color);
+    EXPECT_EQ(getColorAtPixel(canvas, 50, 40), clampVec(color));
 }
 
 TEST(DrawTests, testSaveCanvas) {
@@ -29,7 +29,7 @@ TEST(DrawTests, testSaveCanvas) {
     writeToPixel(canvas, 0, 0, c1);
     writeToPixel(canvas, 2, 1, c2);
     writeToPixel(canvas, 4, 2, c3);
-    
+
     saveCanvasToPPM(canvas, testFile);
 
 }

@@ -97,3 +97,23 @@ inline Vec4 hadamardProd(const Vec4 &v1, const Vec4 &v2) {
                 v1.y * v2.y,
                 v1.z * v2.z);
 }
+
+// Clamp to range for colors
+// hard-coded range of 0 - 255 for ppm files
+// not using std::clamp since it's a C++ 17 feature
+// NOTE: the following two functions are not tested separately (because I'm lazy :P)
+
+inline float clampToRange(float a) {
+    a *= 255;
+    if (a < 0) return 0;
+    if (a > 255) return 255;
+    return round(a);
+}
+
+inline Vec4 clampVec(const Vec4 &v1) {
+    return Vec4(
+        clampToRange(v1.x),
+        clampToRange(v1.y),
+        clampToRange(v1.z)
+    );
+}
