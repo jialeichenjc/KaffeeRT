@@ -20,13 +20,16 @@ TEST(DrawTests, testDrawCanvas) {
 
 TEST(DrawTests, testSaveCanvas) {
     Canvas canvas(5,3);
-    std::cout << "test" << std::endl;
 
     Vec4 c1(1.5f, 0, 0);
     Vec4 c2(0, 0.5f, 0);
     Vec4 c3(-0.5f, 0, 1);
     char* testFile = "output.ppm";
+
+    writeToPixel(canvas, 0, 0, c1);
+    writeToPixel(canvas, 2, 1, c2);
+    writeToPixel(canvas, 4, 2, c3);
+    
     saveCanvasToPPM(canvas, testFile);
-    std::cout << "test after" << std::endl;
 
 }

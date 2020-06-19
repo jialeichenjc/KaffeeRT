@@ -16,7 +16,7 @@ public:
         height = i_height;
         assert(width > 0 && height > 0);
         pixels = new Vec4*[height];
-        for(int i = 0; i < 600; i++) {
+        for(int i = 0; i < height; i++) {
             pixels[i] = new Vec4[width];
         }
         
@@ -32,48 +32,32 @@ public:
 };
 
 // x: width y: height
-void writeToPixel(Canvas &canvas, size_t x, size_t y, const Vec4 &color) {
-    assert(x < canvas.width && y < canvas.height);
-    canvas.pixels[x][y] = color;
+void writeToPixel(Canvas &canvas, size_t col, size_t row, const Vec4 &color) {
+    assert(col < canvas.width && row < canvas.height);
+    canvas.pixels[row][col] = color;
 }
 
-Vec4 getColorAtPixel(const Canvas &canvas, size_t x, size_t y) {
-    assert(x < canvas.width && y < canvas.height);
-    return canvas.pixels[x][y];
+Vec4 getColorAtPixel(const Canvas &canvas, size_t col, size_t row) {
+    assert(col < canvas.width && row < canvas.height);
+    return canvas.pixels[row][col];
 }
 
 // 1st line: flavor of PPM used
 // 2nd line: width and height in pix
 // 3rd line: maximum color value 
 void saveCanvasToPPM(const Canvas &canvas, const char* filename) {
-    std::cout << "test inside 1" << std::endl;
-    std::ofstream fs;
-    std::cerr << "Error 1: " << strerror(errno);
-    fs.open(filename);
+    std::ofstream fs(filename);
     if(fs.fail()) {
         std::cout << "Failed" << std::endl;
     }
-    std::cerr << "Error: " << strerror(errno);
-    std::cout << "test inside 2" << std::endl;
-    if(!fs.is_open()) {
-        std::cout << "Failed to open file" << std::endl;
-    }
-    std::cout << "test inside 2" << std::endl;
-    while(fs.is_open()) {
-        fs << "P3\n" << 20 << "\n";
-        //std::cout << "test" << std::endl;
+    if (fs.is_open()) {
+        fs << "P3\n" << canvas.width << " " << canvas.height << "\n";
         for(int i = 0; i < canvas.height; i++) {
-            //std::cout << "test" << std::endl;
-            fs << "s\n";
-            // for(int j = 0; j < canvas.width; j++) {
-            //     fs << "test " << "\n";
-            //    // fs << std::to_string(canvas.pixels[i][j]) << " ";
-            // }
-            // fs << "\n";
+            for(int j = 0; j < canvas.width; j++) {
+               fs << canvas.pixels[i][j].x << " " << canvas.pixels[i][j].y << " " << canvas.pixels[i][j].z << " ";
+            }
+            fs << "\n";
         }
-        fs.close();
     }
-    if(fs.is_open()) {
-        fs.close();
-    }
+    
 }
