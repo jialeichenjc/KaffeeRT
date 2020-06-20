@@ -1,4 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
+if(MSVC) 
+#set(CUDA_TOOLKIT_ROOT_DIR C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0)
+message("CUDA LOCATION: ${CUDA_TOOLKIT_ROOT_DIR}")
+endif()
+
+#set(CUDA_TOOLKIT_ROOT_DIR "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0")
+
+project(KaffeeRT LANGUAGES CXX CUDA)
 
 project(KaffeeRT VERSION 1.0)
 
@@ -36,7 +44,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 set(googletest-srcdir ${CMAKE_CURRENT_BINARY_DIR}/googletest-src/googletest)
 
 set(SOURCES 
-    main.cpp
+    main.cu
     Vec.h
     Vec.cpp
     Draw.h
