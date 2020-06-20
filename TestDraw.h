@@ -18,18 +18,26 @@ TEST(DrawTests, testDrawCanvas) {
     EXPECT_EQ(getColorAtPixel(canvas, 50, 40), clampVec(color));
 }
 
-TEST(DrawTests, testSaveCanvas) {
-    Canvas canvas(5,3);
+// TEST(DrawTests, testSaveCanvas) {
+//     Canvas canvas(5,3);
 
-    Vec4 c1(1.5f, 0, 0);
-    Vec4 c2(0, 0.5f, 0);
-    Vec4 c3(-0.5f, 0, 1);
-    char* testFile = "output.ppm";
+//     Vec4 c1(1.5f, 0, 0);
+//     Vec4 c2(0, 0.5f, 0);
+//     Vec4 c3(-0.5f, 0, 1);
+//     char* testFile = "output.ppm";
 
-    writeToPixel(canvas, 0, 0, c1);
-    writeToPixel(canvas, 2, 1, c2);
-    writeToPixel(canvas, 4, 2, c3);
+//     writeToPixel(canvas, 0, 0, c1);
+//     writeToPixel(canvas, 2, 1, c2);
+//     writeToPixel(canvas, 4, 2, c3);
 
-    saveCanvasToPPM(canvas, testFile);
+//     saveCanvasToPPM(canvas, testFile);
 
+// }
+
+TEST(DrawTests, testClearCanvas) {
+    Canvas canvas(800, 600);
+    Vec4 c(0.2f, 0.1f, 0.7f);
+    clearCanvas(canvas, c);
+
+    saveCanvasToPPM(canvas, "output.ppm");
 }

@@ -32,12 +32,12 @@ public:
 };
 
 // x: width y: height
-void writeToPixel(Canvas &canvas, size_t col, size_t row, const Vec4 &color) {
+inline void writeToPixel(Canvas &canvas, size_t col, size_t row, const Vec4 &color) {
     assert(col < canvas.width && row < canvas.height);
     canvas.pixels[row][col] = clampVec(color);
 }
 
-Vec4 getColorAtPixel(const Canvas &canvas, size_t col, size_t row) {
+inline Vec4 getColorAtPixel(const Canvas &canvas, size_t col, size_t row) {
     assert(col < canvas.width && row < canvas.height);
     return canvas.pixels[row][col];
 }
@@ -51,7 +51,7 @@ void saveCanvasToPPM(const Canvas &canvas, const char* filename) {
         std::cout << "Failed" << std::endl;
     }
     if (fs.is_open()) {
-        fs << "P3\n" << canvas.width << " " << canvas.height << "\n";
+        fs << "P3\n" << canvas.width << " " << canvas.height << "\n" << 255 << "\n";
         for(int i = 0; i < canvas.height; i++) {
             for(int j = 0; j < canvas.width; j++) {
                fs << canvas.pixels[i][j].x << " " << canvas.pixels[i][j].y << " " << canvas.pixels[i][j].z << " ";
@@ -60,4 +60,12 @@ void saveCanvasToPPM(const Canvas &canvas, const char* filename) {
         }
     }
     
+}
+
+void clearCanvas(Canvas &canvas, const Vec4 &c) {
+    for(int i = 0; i < canvas.height; i++) {
+        for(int j = 0; j < canvas.width; j++) {
+            canvas.pixels[i][j] = clampVec(c);
+        }
+    }
 }
