@@ -1,9 +1,9 @@
 #pragma once
 
-#include <math.h>
+#include <cmath>
 #include <assert.h>
 
-#define EPSILON 0.00001
+#define EPSILON 0.00001f
 
 class tuple {
 public:

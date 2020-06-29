@@ -40,8 +40,11 @@ set(SOURCES
     Vec.h
     Vec.cpp
     Draw.h
+    Mat.h
+    Mat.cpp
     TestDraw.h
     TestVec4.h
+    TestMat.h
     ${googletest-srcdir}/include/gtest/gtest.h)
 
 add_executable(KaffeeRT ${SOURCES})

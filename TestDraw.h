@@ -35,7 +35,7 @@ TEST(DrawTests, testDrawCanvas) {
 // }
 
 TEST(DrawTests, testClearCanvas) {
-    Canvas canvas(800, 600);
+    Canvas canvas(160, 120);
     Vec4 c(0.2f, 0.1f, 0.7f);
     clearCanvas(canvas, c);
 
