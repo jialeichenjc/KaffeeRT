@@ -149,3 +149,52 @@ TEST(MatTests, TestMatTranspose) {
     EXPECT_EQ(transpose(m), mT);
     EXPECT_EQ(transpose(IDENTITY_MATRIX), IDENTITY_MATRIX);
 }
+
+TEST(MatTests, TestMat2Det) {
+    Mat2 m(
+        1, 5,
+        -3, 2
+    );
+
+    EXPECT_FLOAT_EQ(det(m), 17);
+}
+
+TEST(MatTests, TestSubmatrixMat4) {
+    Mat4 m(
+        -6, 1, 1, 6,
+        -8, 5, 8, 6,
+        -1, 0, 8, 2,
+        -7, 1, -1, 1
+    );
+
+    Mat3 res(
+        -6, 1, 6,
+        -8, 8, 6,
+        -7, -1, 1    
+    );
+
+    EXPECT_EQ(submatrix(m, 2, 1), res);
+
+    Mat3 res2(
+        5, 8, 6,
+        0, 8, 2,
+        1, -1, 1
+    );
+
+    EXPECT_EQ(submatrix(m, 0, 0), res2);
+}
+
+TEST(MatTests, TestSubmatrixMat3) {
+    Mat3 m(
+        1, 5, 0,
+        -3, 2, 7,
+        0, 6, -3
+    );
+
+    Mat2 res(
+        -3, 2,
+        0, 6
+    );
+
+    EXPECT_EQ(submatrix(m, 0, 2), res);
+}

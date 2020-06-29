@@ -97,52 +97,77 @@ static Mat4 IDENTITY_MATRIX = Mat4(
 );
 
 inline bool operator==(const Mat4 &m1, const Mat4 &m2) {
-    return
-        FloatEqual(m1.data[0][0], m2.data[0][0]) &&
-        FloatEqual(m1.data[0][1], m2.data[0][1]) &&
-        FloatEqual(m1.data[0][2], m2.data[0][2]) &&
-        FloatEqual(m1.data[0][3], m2.data[0][3]) &&
-        FloatEqual(m1.data[1][0], m2.data[1][0]) &&
-        FloatEqual(m1.data[1][1], m2.data[1][1]) &&
-        FloatEqual(m1.data[1][2], m2.data[1][2]) &&
-        FloatEqual(m1.data[1][3], m2.data[1][3]) &&
-        FloatEqual(m1.data[2][0], m2.data[2][0]) &&
-        FloatEqual(m1.data[2][1], m2.data[2][1]) &&
-        FloatEqual(m1.data[2][2], m2.data[2][2]) &&
-        FloatEqual(m1.data[2][3], m2.data[2][3]) &&
-        FloatEqual(m1.data[3][0], m2.data[3][0]) &&
-        FloatEqual(m1.data[3][1], m2.data[3][1]) &&
-        FloatEqual(m1.data[3][2], m2.data[3][2]) &&
-        FloatEqual(m1.data[3][3], m2.data[3][3]);
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            if(!FloatEqual(m1.data[i][j], m2.data[i][j])) { return false; }
+        }
+    }
+    return true;
 }
 
 inline bool operator!=(const Mat4 &m1, const Mat4 &m2) {
-    return !(m1==m2);
+    return !(m1 == m2);
+}
+
+inline bool operator==(const Mat3 &m1, const Mat3 &m2) {
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            if(!FloatEqual(m1.data[i][j], m2.data[i][j])) { return false; }
+        }
+    }
+
+    return true;
+}
+
+inline bool operator!=(const Mat3 &m1, const Mat3 &m2) {
+    return !(m1 == m2);
+}
+
+inline bool operator==(const Mat2 &m1, const Mat2 &m2) {
+    for(int i = 0; i < 2; i++) {
+        for(int j = 0; j < 2; j++) {
+            if(!FloatEqual(m1.data[i][j], m2.data[i][j])) { return false; }
+        }
+    }
+    return true;
 }
 
 inline Mat4 operator*(const Mat4 &m1, const Mat4 &m2) {
-    return Mat4(
-        m1.data[0][0] * m2.data[0][0] + m1.data[0][1] * m2.data[1][0] + m1.data[0][2] * m2.data[2][0] + m1.data[0][3] * m2.data[3][0], // row 0 col 0
-        m1.data[0][0] * m2.data[0][1] + m1.data[0][1] * m2.data[1][1] + m1.data[0][2] * m2.data[2][1] + m1.data[0][3] * m2.data[3][1], // row 0 col 1
-        m1.data[0][0] * m2.data[0][2] + m1.data[0][1] * m2.data[1][2] + m1.data[0][2] * m2.data[2][2] + m1.data[0][3] * m2.data[3][2], // row 0 col 2
-        m1.data[0][0] * m2.data[0][3] + m1.data[0][1] * m2.data[1][3] + m1.data[0][2] * m2.data[2][3] + m1.data[0][3] * m2.data[3][3], // row 0 col 3
+    Mat4 res;
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            float sum = 0;
+            for(int id = 0; id < 4; id++) {
+                sum += m1.data[i][id] * m2.data[id][j];
+            }          
+            res.data[i][j] = sum;
+        }
+    }
 
-        m1.data[1][0] * m2.data[0][0] + m1.data[1][1] * m2.data[1][0] + m1.data[1][2] * m2.data[2][0] + m1.data[1][3] * m2.data[3][0], // row 1 col 0
-        m1.data[1][0] * m2.data[0][1] + m1.data[1][1] * m2.data[1][1] + m1.data[1][2] * m2.data[2][1] + m1.data[1][3] * m2.data[3][1], // row 1 col 1
-        m1.data[1][0] * m2.data[0][2] + m1.data[1][1] * m2.data[1][2] + m1.data[1][2] * m2.data[2][2] + m1.data[1][3] * m2.data[3][2], // row 1 col 2
-        m1.data[1][0] * m2.data[0][3] + m1.data[1][1] * m2.data[1][3] + m1.data[1][2] * m2.data[2][3] + m1.data[1][3] * m2.data[3][3], // row 1 col 3
+    return res;
 
-        m1.data[2][0] * m2.data[0][0] + m1.data[2][1] * m2.data[1][0] + m1.data[2][2] * m2.data[2][0] + m1.data[2][3] * m2.data[3][0], // row 2 col 0
-        m1.data[2][0] * m2.data[0][1] + m1.data[2][1] * m2.data[1][1] + m1.data[2][2] * m2.data[2][1] + m1.data[2][3] * m2.data[3][1], // row 2 col 1
-        m1.data[2][0] * m2.data[0][2] + m1.data[2][1] * m2.data[1][2] + m1.data[2][2] * m2.data[2][2] + m1.data[2][3] * m2.data[3][2], // row 2 col 2
-        m1.data[2][0] * m2.data[0][3] + m1.data[2][1] * m2.data[1][3] + m1.data[2][2] * m2.data[2][3] + m1.data[2][3] * m2.data[3][3], // row 2 col 3
+    // return Mat4(
+    //     m1.data[0][0] * m2.data[0][0] + m1.data[0][1] * m2.data[1][0] + m1.data[0][2] * m2.data[2][0] + m1.data[0][3] * m2.data[3][0], // row 0 col 0
+    //     m1.data[0][0] * m2.data[0][1] + m1.data[0][1] * m2.data[1][1] + m1.data[0][2] * m2.data[2][1] + m1.data[0][3] * m2.data[3][1], // row 0 col 1
+    //     m1.data[0][0] * m2.data[0][2] + m1.data[0][1] * m2.data[1][2] + m1.data[0][2] * m2.data[2][2] + m1.data[0][3] * m2.data[3][2], // row 0 col 2
+    //     m1.data[0][0] * m2.data[0][3] + m1.data[0][1] * m2.data[1][3] + m1.data[0][2] * m2.data[2][3] + m1.data[0][3] * m2.data[3][3], // row 0 col 3
 
-        m1.data[3][0] * m2.data[0][0] + m1.data[3][1] * m2.data[1][0] + m1.data[3][2] * m2.data[2][0] + m1.data[3][3] * m2.data[3][0], // row 3 col 0
-        m1.data[3][0] * m2.data[0][1] + m1.data[3][1] * m2.data[1][1] + m1.data[3][2] * m2.data[2][1] + m1.data[3][3] * m2.data[3][1], // row 3 col 1
-        m1.data[3][0] * m2.data[0][2] + m1.data[3][1] * m2.data[1][2] + m1.data[3][2] * m2.data[2][2] + m1.data[3][3] * m2.data[3][2], // row 3 col 2
-        m1.data[3][0] * m2.data[0][3] + m1.data[3][1] * m2.data[1][3] + m1.data[3][2] * m2.data[2][3] + m1.data[3][3] * m2.data[3][3] // row 3 col 3
+    //     m1.data[1][0] * m2.data[0][0] + m1.data[1][1] * m2.data[1][0] + m1.data[1][2] * m2.data[2][0] + m1.data[1][3] * m2.data[3][0], // row 1 col 0
+    //     m1.data[1][0] * m2.data[0][1] + m1.data[1][1] * m2.data[1][1] + m1.data[1][2] * m2.data[2][1] + m1.data[1][3] * m2.data[3][1], // row 1 col 1
+    //     m1.data[1][0] * m2.data[0][2] + m1.data[1][1] * m2.data[1][2] + m1.data[1][2] * m2.data[2][2] + m1.data[1][3] * m2.data[3][2], // row 1 col 2
+    //     m1.data[1][0] * m2.data[0][3] + m1.data[1][1] * m2.data[1][3] + m1.data[1][2] * m2.data[2][3] + m1.data[1][3] * m2.data[3][3], // row 1 col 3
 
-    );
+    //     m1.data[2][0] * m2.data[0][0] + m1.data[2][1] * m2.data[1][0] + m1.data[2][2] * m2.data[2][0] + m1.data[2][3] * m2.data[3][0], // row 2 col 0
+    //     m1.data[2][0] * m2.data[0][1] + m1.data[2][1] * m2.data[1][1] + m1.data[2][2] * m2.data[2][1] + m1.data[2][3] * m2.data[3][1], // row 2 col 1
+    //     m1.data[2][0] * m2.data[0][2] + m1.data[2][1] * m2.data[1][2] + m1.data[2][2] * m2.data[2][2] + m1.data[2][3] * m2.data[3][2], // row 2 col 2
+    //     m1.data[2][0] * m2.data[0][3] + m1.data[2][1] * m2.data[1][3] + m1.data[2][2] * m2.data[2][3] + m1.data[2][3] * m2.data[3][3], // row 2 col 3
+
+    //     m1.data[3][0] * m2.data[0][0] + m1.data[3][1] * m2.data[1][0] + m1.data[3][2] * m2.data[2][0] + m1.data[3][3] * m2.data[3][0], // row 3 col 0
+    //     m1.data[3][0] * m2.data[0][1] + m1.data[3][1] * m2.data[1][1] + m1.data[3][2] * m2.data[2][1] + m1.data[3][3] * m2.data[3][1], // row 3 col 1
+    //     m1.data[3][0] * m2.data[0][2] + m1.data[3][1] * m2.data[1][2] + m1.data[3][2] * m2.data[2][2] + m1.data[3][3] * m2.data[3][2], // row 3 col 2
+    //     m1.data[3][0] * m2.data[0][3] + m1.data[3][1] * m2.data[1][3] + m1.data[3][2] * m2.data[2][3] + m1.data[3][3] * m2.data[3][3] // row 3 col 3
+
+    // );
 }
 
 inline Vec4 operator*(const Mat4 &m, const Vec4 &v) {
@@ -161,4 +186,41 @@ inline Mat4 transpose(const Mat4 &m) {
         m.data[0][2], m.data[1][2], m.data[2][2], m.data[3][2],
         m.data[0][3], m.data[1][3], m.data[2][3], m.data[3][3]
     );
+}
+
+inline float det(const Mat2 &m) {
+    return m.data[0][0] * m.data[1][1] - m.data[0][1] * m.data[1][0];
+}
+
+// returns a copy of the given matrix with the given row and column removed
+inline Mat3 submatrix(const Mat4 &m, int row, int col) {
+    Mat3 res;
+    for(int i = 0; i < 4; i++) {
+        int x = i;
+        if(i == row) { continue; }
+        if(i > row) { --x; }
+        for(int j = 0; j < 4; j++) {
+            int y = j;
+            if(j == col) { continue; }
+            if(j > col) { --y; }
+            res.data[x][y] = m.data[i][j];
+        }
+    }
+    return res;
+}
+
+inline Mat2 submatrix(const Mat3 &m, int row, int col) {
+    Mat2 res;
+    for(int i = 0; i < 3; i++) {
+        int x = i;
+        if(i == row) { continue; }
+        if(i > row) { --x; }
+        for(int j = 0; j < 4; j++) {
+            int y = j;
+            if(j == col) { continue; }
+            if(j > col) { --y; }
+            res.data[x][y] = m.data[i][j];
+        }
+    }
+    return res;
 }
