@@ -198,3 +198,103 @@ TEST(MatTests, TestSubmatrixMat3) {
 
     EXPECT_EQ(submatrix(m, 0, 2), res);
 }
+
+TEST(MatTests, TestMinorMat3) {
+    Mat3 m(
+        3, 5, 0,
+        2, -1, -7,
+        6, -1, 5
+    );
+
+    EXPECT_FLOAT_EQ(minor(m, 1, 0), 25);
+}
+
+TEST(MatTests, TestCofactorMat3) {
+    Mat3 m(
+        3, 5, 0,
+        2, -1, -7,
+        6, -1, 5
+    );
+    
+    EXPECT_FLOAT_EQ(cofactor(m, 0, 0), -12);
+    EXPECT_FLOAT_EQ(cofactor(m, 1, 0), -25);
+}
+
+TEST(MatTests, TestDetMat3) {
+    Mat3 m(
+        1, 2, 6,
+        -5, 8, -4,
+        2, 6, 4
+    );
+
+    EXPECT_FLOAT_EQ(det(m), -196);
+}
+
+TEST(MatTests, TestDetMat4) {
+    Mat4 m(
+        -2, -8, 3, 5,
+        -3, 1, 7, 3,
+        1, 2, -9, 6,
+        -6, 7, 7, -9
+    );
+
+    EXPECT_FLOAT_EQ(det(m), -4071);
+}
+
+TEST(MatTests, TestInvertibleMat4) {
+    Mat4 m(
+        6, 4, 4, 4,
+        5, 5, 7, 6,
+        4, -9, 3, -7,
+        9, 1, 7, -6
+    );
+
+    EXPECT_FLOAT_EQ(det(m), -2120);
+    EXPECT_TRUE(isInvertible(m));
+
+    Mat4 m2(
+        -4, 2, -2, -3,
+        9, 6, 2, 6,
+        0, -5, 1, -5,
+        0, 0, 0 ,0 
+    );
+
+    EXPECT_FLOAT_EQ(det(m2), 0);
+    EXPECT_FLOAT_EQ(isInvertible(m2), 0);
+}
+
+TEST(MatTests, TestInverseMat4) {
+    Mat4 m(
+        9, 3, 0, 9,
+        -5, -2, -6, -3,
+        -4, 9, 6, 4, 
+        -7, 6, 6, 2
+    );
+
+    Mat4 res(
+        -0.04074f, -0.07778f, 0.14444f, -0.22222f,
+        -0.07778f, 0.03333f, 0.36667f, -0.33333f,
+        -0.02901f, -0.14630f, -0.10926f, 0.12963f,
+        0.17778f, 0.06667f, -0.26667f, 0.33333f
+    );
+
+    Mat4 m2(
+        3, -9, 7, 3,
+        3, -8, 2, -9,
+        -4, 4, 4, 1,
+        -6, 5, -1, 1
+    );
+
+    Mat4 m3(
+        8, 2, 2, 2,
+        3, -1, 7, 0,
+        7, 0, 5, 4,
+        6, -2, 0, 5
+    );
+
+    //printMat(inverse(m));
+    EXPECT_EQ(inverse(m), res);
+
+    Mat4 prod = m2 * m3;
+    EXPECT_EQ(prod * inverse(m3), m2);
+}

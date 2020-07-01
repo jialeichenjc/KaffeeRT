@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 #include "math.h"
 #include "Vec.h"
 
@@ -188,10 +190,6 @@ inline Mat4 transpose(const Mat4 &m) {
     );
 }
 
-inline float det(const Mat2 &m) {
-    return m.data[0][0] * m.data[1][1] - m.data[0][1] * m.data[1][0];
-}
-
 // returns a copy of the given matrix with the given row and column removed
 inline Mat3 submatrix(const Mat4 &m, int row, int col) {
     Mat3 res;
@@ -223,4 +221,82 @@ inline Mat2 submatrix(const Mat3 &m, int row, int col) {
         }
     }
     return res;
+}
+
+inline float det(const Mat2 &m) {
+    return m.data[0][0] * m.data[1][1] - m.data[0][1] * m.data[1][0];
+}
+
+inline float minor(const Mat3 &m, int row, int col) {
+    Mat2 sub = submatrix(m, row, col);
+    return det(sub);
+}
+
+inline float cofactor(const Mat3 &m, int row, int col) {
+    return minor(m, row, col) * (float)pow(-1, row + col);
+}
+
+
+inline float det(const Mat3 &m) {
+    float sum = 0;
+    // use the first row
+    for(int i = 0; i < 3; i++) {
+        sum += m.data[0][i] * cofactor(m, 0, i);
+    }
+    return sum;
+}
+
+inline float minor(const Mat4 &m, int row, int col) {
+    Mat3 sub = submatrix(m, row, col);
+    return det(sub);
+}
+
+inline float cofactor(const Mat4 &m, int row, int col) {
+    return minor(m, row, col) * (float)pow(-1, row + col);
+}
+
+inline float det(const Mat4 &m) {
+    float sum = 0;
+    // use the first row
+    for(int i = 0; i < 4; i++) {
+        sum += m.data[0][i] * cofactor(m, 0, i);
+    }
+    return sum;
+}
+
+inline bool isInvertible(const Mat4 &m) {
+    if(det(m) == 0) {
+        return false;
+    }
+
+    return true;
+}
+
+inline Mat4 inverse(const Mat4 &m) {
+    // create matrix of cofactors
+    Mat4 coMat;
+    Mat4 tMat;
+    Mat4 res;
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            coMat.data[i][j] = cofactor(m, i, j);
+        }
+    }
+    tMat = transpose(coMat);
+    float determinant = det(m);
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+           res.data[i][j] = tMat.data[i][j] / determinant;
+        }
+    }
+    return res;
+}
+
+void printMat(const Mat4 &m) {
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            std::cout << m.data[i][j] << " ";
+        }
+        std::cout <<std::endl;
+    }
 }
