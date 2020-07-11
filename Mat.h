@@ -292,6 +292,10 @@ inline Mat4 inverse(const Mat4 &m) {
     return res;
 }
 
+inline Mat4 translation(float x, float y, float z) {
+
+}
+
 void printMat(const Mat4 &m) {
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
