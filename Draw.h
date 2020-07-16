@@ -16,14 +16,14 @@ public:
         height = i_height;
         assert(width > 0 && height > 0);
         pixels = new Vec4*[height];
-        for(int i = 0; i < height; i++) {
+        for(size_t i = 0; i < height; i++) {
             pixels[i] = new Vec4[width];
         }
         
     }
 
     ~Canvas() {
-        for(int i = 0; i < height; i++) {
+        for(size_t i = 0; i < height; i++) {
             delete[] pixels[i];
         }
         delete[] pixels;
@@ -52,8 +52,8 @@ void saveCanvasToPPM(const Canvas &canvas, const char* filename) {
     }
     if (fs.is_open()) {
         fs << "P3\n" << canvas.width << " " << canvas.height << "\n" << 255 << "\n";
-        for(int i = 0; i < canvas.height; i++) {
-            for(int j = 0; j < canvas.width; j++) {
+        for(size_t i = 0; i < canvas.height; i++) {
+            for(size_t j = 0; j < canvas.width; j++) {
                fs << canvas.pixels[i][j].x << " " << canvas.pixels[i][j].y << " " << canvas.pixels[i][j].z << " ";
             }
             fs << "\n";
@@ -63,8 +63,8 @@ void saveCanvasToPPM(const Canvas &canvas, const char* filename) {
 }
 
 void clearCanvas(Canvas &canvas, const Vec4 &c) {
-    for(int i = 0; i < canvas.height; i++) {
-        for(int j = 0; j < canvas.width; j++) {
+    for(size_t i = 0; i < canvas.height; i++) {
+        for(size_t j = 0; j < canvas.width; j++) {
             canvas.pixels[i][j] = clampVec(c);
         }
     }
