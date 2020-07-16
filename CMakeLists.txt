@@ -45,6 +45,7 @@ set(SOURCES
     TestDraw.h
     TestVec4.h
     TestMat.h
+    TestTransformation.h
     ${googletest-srcdir}/include/gtest/gtest.h)
 
 add_executable(KaffeeRT ${SOURCES})
