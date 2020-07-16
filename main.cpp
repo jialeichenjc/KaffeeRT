@@ -1,5 +1,5 @@
 #include <iostream>
-#include "AddTests.h"
+#include "AllTests.h"
 
 int main(int argc, char **argv) {
     std::cout << "Hello world!!" << std::endl;
