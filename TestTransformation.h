@@ -61,3 +61,30 @@ TEST(TransTests, testRotateZ) {
     EXPECT_EQ(half_quarter * p, Vec4(-(float)sqrt(2)/2, (float)sqrt(2)/2, 0));
     EXPECT_EQ(full_quarter * p, Vec4(-1, 0, 0));
 }
+
+TEST(TransTests, testShearing) {
+    // Moves x in proportion to y
+    Mat4 t = shearing(1, 0, 0, 0, 0, 0);
+    Vec4 p(2, 3, 4, 1);
+    EXPECT_EQ(t * p, Vec4(5, 3, 4, 1));
+
+    // Moves x in proportion to z
+    t = shearing(0, 1, 0, 0, 0, 0);
+    EXPECT_EQ(t * p, Vec4(6, 3, 4, 1));
+
+    // Moves y in proportion to x
+    t = shearing(0, 0, 1, 0, 0, 0);
+    EXPECT_EQ(t * p, Vec4(2, 5, 4, 1));
+
+    // Moves y in proportion to z
+    t = shearing(0, 0, 0, 1, 0, 0);
+    EXPECT_EQ(t * p, Vec4(2, 7, 4, 1));
+
+     // Moves z in proportion to x
+    t = shearing(0, 0, 0, 0, 1, 0);
+    EXPECT_EQ(t * p, Vec4(2, 3, 6, 1));
+
+     // Moves z in proportion to y
+    t = shearing(0, 0, 0, 0, 0, 1);
+    EXPECT_EQ(t * p, Vec4(2, 3, 7, 1));
+}

@@ -35,3 +35,13 @@ inline Mat4 rotationZ(float r) {
         0, 0, 0, 1
     );
 }
+
+// Shearing
+inline Mat4 shearing(float xy, float xz, float yx, float yz, float zx, float zy) {
+    return Mat4(
+        1, xy, xz, 0,
+        yx, 1, yz, 0,
+        zx, zy, 1, 0,
+        0, 0, 0, 1
+    );
+}
