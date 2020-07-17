@@ -301,6 +301,15 @@ inline Mat4 translation(float x, float y, float z) {
     );
 }
 
+inline Mat4 scaling(float x, float y, float z) {
+    return Mat4(
+        x, 0, 0, 0,
+        0, y, 0, 0,
+        0, 0, z, 0,
+        0, 0, 0, 1
+    );
+}
+
 void printMat(const Mat4 &m) {
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {

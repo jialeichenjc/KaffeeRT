@@ -42,6 +42,7 @@ set(SOURCES
     Draw.h
     Mat.h
     Mat.cpp
+    Transformation.h
     TestDraw.h
     TestVec4.h
     TestMat.h
